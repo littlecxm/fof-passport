@@ -14,12 +14,16 @@ namespace FoF\Passport\Controllers;
 use Exception;
 use Flarum\Forum\Auth\Registration;
 use Flarum\Forum\Auth\ResponseFactory;
+use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Flarum\User\User;
+use Flarum\User\UserRepository;
 use FoF\Passport\Events\SendingResponse;
 use FoF\Passport\Providers\PassportProvider;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,14 +34,22 @@ class PassportController implements RequestHandlerInterface
     protected $settings;
     protected $response;
     protected $events;
+    protected $users;
     protected $url;
 
-    public function __construct(ResponseFactory $response, SettingsRepositoryInterface $settings, Dispatcher $events, UrlGenerator $url)
+    public function __construct(
+        ResponseFactory $response,
+        SettingsRepositoryInterface $settings,
+        Dispatcher $events,
+        UrlGenerator $url,
+        UserRepository $users
+    )
     {
         $this->response = $response;
         $this->settings = $settings;
         $this->events = $events;
         $this->url = $url;
+        $this->users = $users;
     }
 
     protected function getProvider($redirectUri)
@@ -94,6 +106,18 @@ class PassportController implements RequestHandlerInterface
 
         $token = $provider->getAccessToken('authorization_code', compact('code'));
         $user = $provider->getResourceOwner($token);
+
+        // handler user
+        $exists = $this->users->findByEmail($user->getEmail());
+        if(empty($exists)){
+            $userModel = User::register(
+                $user->getName(),
+                $user->getEmail(),
+                Str::random(20)
+            );
+            $userModel->activate();
+            $userModel->save();
+        }
 
         $response = $this->response->make(
             'passport',
