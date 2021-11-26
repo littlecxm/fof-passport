@@ -35,8 +35,8 @@ class ForumAttributes
 
     public function __invoke(ForumSerializer $serializer): array
     {
-        $attributes['fof-passport.loginTitle'] = $this->settings->get('fof-passport.button_title') ?: $this->translator->trans('fof-passport.api.default-login-button-title');
-        $attributes['fof-passport.loginIcon'] = $this->settings->get('fof-passport.button_icon') ?: 'far fa-id-card';
+        $attributes['fof-passport.loginTitle'] = $this->settings->get('littlecxm-fof-passport.button_title') ?: $this->translator->trans('fof-passport.api.default-login-button-title');
+        $attributes['fof-passport.loginIcon'] = $this->settings->get('littlecxm-fof-passport.button_icon') ?: 'far fa-id-card';
 
         return $attributes;
     }

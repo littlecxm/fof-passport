@@ -1,0 +1,16 @@
+fof-passport:
+    admin:
+        popup:
+            field:
+                app-auth-url: OAuth 验证 URL
+                app-token-url: OAuth token URL
+                app-user-url: 通过身份验证时提供用户详细信息的Api URL
+                app-id: OAuth应用ID
+                app-secret: OAuth应用密钥
+                app-scopes: OAuth应用要请求的范围（Scope）
+                button-title: 登录按钮文字
+                button-title-placeholder: => fof-passport.api.default-login-button-title
+                button-icon: 登录按钮图标
+
+    api:
+        default-login-button-title: => core.ref.log_in

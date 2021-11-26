@@ -1,5 +1,5 @@
 {
-    "name": "@fof/passport",
+    "name": "@littlecxm/fof-passport",
     "private": true,
     "dependencies": {
         "flarum-webpack-config": "^1.0.0",
