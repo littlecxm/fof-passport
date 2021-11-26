@@ -107,16 +107,19 @@ class PassportController implements RequestHandlerInterface
         $token = $provider->getAccessToken('authorization_code', compact('code'));
         $user = $provider->getResourceOwner($token);
 
-        // handler user
-        $exists = $this->users->findByEmail($user->getEmail());
-        if(empty($exists)){
-            $userModel = User::register(
-                $user->getName(),
-                $user->getEmail(),
-                Str::random(20)
-            );
-            $userModel->activate();
-            $userModel->save();
+        // auto reg
+        $autoReg = $this->settings->get('littlecxm-fof-passport.auto_reg',false);
+        if($autoReg){
+            $exists = $this->users->findByEmail($user->getEmail());
+            if(empty($exists)){
+                $userModel = User::register(
+                    $user->getName(),
+                    $user->getEmail(),
+                    Str::random(20)
+                );
+                $userModel->activate();
+                $userModel->save();
+            }
         }
 
         $response = $this->response->make(

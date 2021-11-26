@@ -11,6 +11,7 @@ fof-passport:
                 button-title: Label for login button
                 button-title-placeholder: => fof-passport.api.default-login-button-title
                 button-icon: Icon for login button
+                auto-reg: Auto Register when user authenticated
 
     api:
         default-login-button-title: => core.ref.log_in

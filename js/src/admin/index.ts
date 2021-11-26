@@ -49,5 +49,10 @@ app.initializers.add('littlecxm-fof-passport', function () {
             setting: 'littlecxm-fof-passport.button_icon',
             type: 'text',
             placeholder: 'far fa-id-card',
+        })
+        .registerSetting({
+            setting: 'littlecxm-fof-passport.auto_reg',
+            type: 'boolean',
+            label: app.translator.trans('fof-passport.admin.popup.field.auto-reg'),
         });
 });

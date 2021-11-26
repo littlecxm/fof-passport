@@ -11,6 +11,7 @@ fof-passport:
                 button-title: 登录按钮文字
                 button-title-placeholder: => fof-passport.api.default-login-button-title
                 button-icon: 登录按钮图标
+                auto-reg: 用户授权通过后自动注册
 
     api:
         default-login-button-title: => core.ref.log_in
